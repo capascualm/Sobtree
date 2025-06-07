@@ -25,10 +25,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 10px;
+            width: 100%; /* importantísimo para que no se pase en móvil */
             max-width: 800px;
             margin: 0 auto;
+            padding: 10px 10px;
             flex-wrap: nowrap;
+            box-sizing: border-box; /* critical to prevent overflow */
         }
         header img {
             max-width: 100px;
