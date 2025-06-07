@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,17 +20,28 @@
             line-height: 1.6;
             font-size: 18px;
         }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header img {
+            max-width: 100px;
+            height: auto;
+        }
+        header a {
+            font-size: 14px;
+            text-decoration: none;
+            color: #111;
+        }
         .container {
             width: 100%;
             max-width: 800px;
             padding: 40px 30px;
             margin: 0 auto;
-        }
-        img.logo {
-            display: block;
-            margin: 0 auto 0px; /* pegadísimo al título */
-            max-width: 130px; /* un poco más pequeño */
-            height: auto;
         }
         h1 {
             font-weight: 700;
@@ -67,44 +77,72 @@
             color: #777;
             border-top: 1px solid #eee;
         }
-        @media (max-width: 600px) { ... }
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                padding: 10px 15px;
+            }
+            header img {
+                max-width: 80px;
+                margin-bottom: 10px;
+            }
+            header a {
+                margin-top: 5px;
+            }
+            .container {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            .subtitle {
+                font-size: 14px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .newsletter iframe {
+                height: 280px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div style="text-align: right; font-size: 14px;">
-            <a href="index_en.html">English</a>
-        </div>
-        <img src="sobtree_transparent.png" alt="Sobtree Logo" class="logo">
+<header>
+    <img src="sobtree_transparent.png" alt="Sobtree Logo">
+    <a href="index_en.html">English</a>
+</header>
 
-        <h1>Bitcoin-first Treasury</h1>
-        <div class="subtitle">Build resilience. Preserve legacy.</div>
+<div class="container">
 
-        <h2>About</h2>
-        <p>
-            En un sistema financiero que imprime dinero sin límite, quien no construya sobre <strong>hard assets</strong> está condenado a ver erosionado su patrimonio. Nosotros elegimos otra vía: una <strong>tesorería antifrágil</strong>, con el Bitcoin como columna vertebral.
-        </p>
-        <p>
-            Este no es un camino reservado a expertos o instituciones. Cualquiera: particular, empresa familiar o gestor profesional puede adoptar un enfoque <strong>Bitcoin-first</strong> para blindar su balance contra la inflación estructural y la fragilidad sistémica.
-        </p>
-        <p>
-            Aquí compartimos cómo estructuramos el nuestro: decisiones prácticas, errores, aprendizajes. Sin marketing. Sin narrativas huecas. Porque el objetivo no es solo resistir los próximos ciclos, sino construir un <strong>legado</strong> que trascienda generaciones.
-        </p>
-        <p>
-            Si compartes esta visión, estás en el lugar correcto.
-        </p>
+    <h1>Bitcoin-first Treasury</h1>
+    <div class="subtitle">Build resilience. Preserve legacy.</div>
 
-        <div class="newsletter">
-            <h2>Suscríbete a nuestra newsletter</h2>
-            <p>Ideas concretas para construir y custodiar una tesorería antifrágil basada en hard assets.</p>
-            <iframe src="https://sobtree.substack.com/embed" width="100%" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
-        </div>
+    <h2>About</h2>
+    <p>
+        En un sistema financiero que imprime dinero sin límite, quien no construya sobre <strong>hard assets</strong> está condenado a ver erosionado su patrimonio. Nosotros elegimos otra vía: una <strong>tesorería antifrágil</strong>, con el Bitcoin como columna vertebral.
+    </p>
+    <p>
+        Este no es un camino reservado a expertos o instituciones. Cualquiera: particular, empresa familiar o gestor profesional puede adoptar un enfoque <strong>Bitcoin-first</strong> para blindar su balance contra la inflación estructural y la fragilidad sistémica.
+    </p>
+    <p>
+        Aquí compartimos cómo estructuramos el nuestro: decisiones prácticas, errores, aprendizajes. Sin marketing. Sin narrativas huecas. Porque el objetivo no es solo resistir los próximos ciclos, sino construir un <strong>legado</strong> que trascienda generaciones.
+    </p>
+    <p>
+        Si compartes esta visión, estás en el lugar correcto.
+    </p>
 
-        <footer>
-            © 2025 Sobtree Holding SL. Built for resilience, designed for generations.
-        </footer>
+    <div class="newsletter">
+        <h2>Suscríbete a nuestra newsletter</h2>
+        <p>Ideas concretas para construir y custodiar una tesorería antifrágil basada en hard assets.</p>
+        <iframe src="https://sobtree.substack.com/embed" width="100%" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
     </div>
+
+    <footer>
+        © 2025 Sobtree Holding SL. Built for resilience, designed for generations.
+    </footer>
+</div>
 
 </body>
 </html>
