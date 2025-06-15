@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- SEO -->
-  <title>Sobtree Holding — Bitcoin-First Treasury Company</title>
-  <meta name="description" content="Sobtree helps you protect capital and generate antifragile cashflow through a Bitcoin-first treasury strategy.">
-  <meta name="robots" content="index, follow">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Sobtree Holding — Bitcoin-First Treasury Company">
-  <meta property="og:description" content="Build resilience, protect your legacy and unlock freedom through a Bitcoin-first approach to treasury.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://sobtree.substack.com/">
-  <meta property="og:image" content="https://sobtree.com/assets/preview.jpg">
+  <title>Sobtree Holding — Bitcoin-First Treasury Company</title>
+  <meta name="description" content="Sobtree helps you protect capital and generate antifragile cashflow through a Bitcoin-first treasury strategy." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Sobtree Holding — Bitcoin-First Treasury Company" />
+  <meta property="og:description" content="Build resilience, protect your legacy and unlock freedom through a Bitcoin-first approach to treasury." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sobtree.substack.com/" />
+  <meta property="og:image" content="https://sobtree.com/assets/preview.jpg" />
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
@@ -27,9 +24,7 @@
     }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: relative;
       padding: 1.5rem;
       background-color: #000;
     }
@@ -37,6 +32,42 @@
     .logo {
       font-weight: bold;
       font-size: 1.5rem;
+      padding-right: 10rem; /* espacio para el contador */
+    }
+
+    .btc-info {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btc-label {
+      display: inline;
+    }
+
+    .btc-counter {
+      background-color: #f7931a;
+      color: #000;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      min-width: 6.5rem;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    @media (max-width: 600px) {
+      .btc-label {
+        display: none;
+      }
+      .logo {
+        padding-right: 0; /* reseteamos para móvil */
+      }
     }
 
     main {
@@ -71,7 +102,7 @@
     a.button {
       text-decoration: none;
       color: #000;
-      background: #f7931a; /* Bitcoin orange */
+      background: #f7931a;
       padding: 1rem 2rem;
       border-radius: 0.5rem;
       font-weight: 600;
@@ -90,19 +121,22 @@
     }
   </style>
 </head>
-
 <body>
   <header>
     <div class="logo">Sobtree</div>
+    <div class="btc-info">
+      <span class="btc-label">BTC held by Sobtree:</span>
+      <div class="btc-counter" id="btcCount">0.00000000</div>
+    </div>
   </header>
 
   <main>
     <h1>Bitcoin-First Treasury Company</h1>
     <div class="subtitle">Build your financial sovereignty</div>
     <p>
-      Sobtree is not just a company. It’s a methodical experiment in using Bitcoin as the core of corporate finance. 
+      Sobtree is not just a company. It’s a methodical experiment in using Bitcoin as the core of corporate finance.
       <b>We protect value in BTC, but we also focus on extracting strategic cashflow from it</b>, without selling.
-      In a world where most treasuries rot in fiat or dilute via inflation, we’re building a system that grows stronger over time. 
+      In a world where most treasuries rot in fiat or dilute via inflation, we’re building a system that grows stronger over time.
       From treasury design to yield generation, everything starts with Bitcoin.
     </p>
     <a href="https://sobtree.substack.com/" class="button">Join the journey</a>
@@ -111,5 +145,24 @@
   <footer>
     © 2025 Sobtree Holding, S.L. — Building from Madrid with conviction and long-term skin in the game.
   </footer>
+
+  <script>
+    const btcElement = document.getElementById('btcCount')
+    const target = 0.1
+    let current = 0
+    const step = 0.00001
+
+    function updateBTC() {
+      current += step
+      if (current >= target) {
+        btcElement.textContent = target.toFixed(8)
+        return
+      }
+      btcElement.textContent = current.toFixed(8)
+      requestAnimationFrame(updateBTC)
+    }
+
+    updateBTC()
+  </script>
 </body>
 </html>
