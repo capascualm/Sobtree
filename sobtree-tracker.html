@@ -93,58 +93,69 @@
   <script>
     const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS47V1t8RB3U1E_IyBs4jc_t3_HyZ10R8Y5W7xsy0uAU6ieuVMF7xLGP3kcxGxU6k3cNbASO_UTLtfa/gviz/tq?tqx=out:json&sheet=Sheet1';
 
-    fetch(url).then(res => res.text()).then(rep => {
-      const json = JSON.parse(rep.substr(47).slice(0, -2));
-      const rows = json.table.rows;
-      let totalBTC = 0, totalFiat = 0;
-      const labels = [], prices = [], markers = [];
-      const tbody = document.getElementById('sheet-data');
-      tbody.innerHTML = '';
-      rows.forEach(r => {
-        const date = r.c[0]?.v || '';
-        const btc = parseFloat(r.c[1]?.v || 0);
-        const price = parseFloat(r.c[2]?.v || 0);
-        if (!date || isNaN(btc) || isNaN(price)) return;
-        totalBTC += btc;
-        totalFiat += btc * price;
-        labels.push(date);
-        prices.push(price);
-        markers.push({x: date, y: price});
-        tbody.innerHTML += `<tr><td>${date}</td><td>${btc.toFixed(8)}</td><td>${price.toLocaleString('en-US',{style:'currency',currency:'USD'})}</td></tr>`;
-      });
-      document.getElementById('totalBTC').textContent = totalBTC.toFixed(8) + ' BTC';
-      document.getElementById('totalFiat').textContent = totalFiat.toLocaleString('en-US',{style:'currency',currency:'USD'});
+    fetch(url)
+      .then(res => res.text())
+      .then(rep => {
+        const json = JSON.parse(rep.substring(47).slice(0, -2));
+        const rows = json.table.rows;
+        let totalBTC = 0, totalFiat = 0;
+        const labels = [], prices = [], markers = [];
+        const tbody = document.getElementById('sheet-data');
+        tbody.innerHTML = '';
 
-      new Chart(document.getElementById('btcChart').getContext('2d'), {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'BTC Price',
-              data: prices,
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59,130,246,0.1)',
-              tension: 0.3,
-              pointRadius: 0
-            },
-            {
-              label: 'Purchases',
-              data: markers,
-              type: 'scatter',
-              pointBackgroundColor: '#22c55e',
-              pointBorderColor: '#22c55e',
-              pointRadius: 6,
-              showLine: false
-            }
-          ]
-        },
-        options: {
-          scales: { x: { display: true }, y: { display: true } },
-          plugins: { legend: { display: true } }
-        }
+        rows.forEach(r => {
+          const date = r.c[0]?.v;
+          const btc = parseFloat(r.c[1]?.v);
+          const price = parseFloat(r.c[2]?.v);
+
+          if (!date || isNaN(btc) || isNaN(price)) return;
+
+          totalBTC += btc;
+          totalFiat += btc * price;
+          labels.push(date);
+          prices.push(price);
+          markers.push({ x: date, y: price });
+
+          tbody.innerHTML += `<tr><td>${date}</td><td>${btc.toFixed(8)}</td><td>${price.toLocaleString('en-US',{style:'currency',currency:'USD'})}</td></tr>`;
+        });
+
+        document.getElementById('totalBTC').textContent = totalBTC.toFixed(8) + ' BTC';
+        document.getElementById('totalFiat').textContent = totalFiat.toLocaleString('en-US',{style:'currency',currency:'USD'});
+
+        new Chart(document.getElementById('btcChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'BTC Price',
+                data: prices,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59,130,246,0.1)',
+                tension: 0.3,
+                pointRadius: 0
+              },
+              {
+                label: 'Purchases',
+                data: markers,
+                type: 'scatter',
+                pointBackgroundColor: '#22c55e',
+                pointBorderColor: '#22c55e',
+                pointRadius: 6,
+                showLine: false
+              }
+            ]
+          },
+          options: {
+            scales: { x: { display: true }, y: { display: true } },
+            plugins: { legend: { display: true } }
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Error loading sheet:', err);
+        document.getElementById('sheet-data').innerHTML = '<tr><td colspan=\"3\">Error loading data</td></tr>';
       });
-    });
   </script>
 </body>
 </html>
