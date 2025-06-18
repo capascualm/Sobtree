@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobtree Bitcoin Tracker</title>
+  <link rel="icon" href="https://sobtree.com/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0f0f0f;
+      color: #f3f4f6;
+      margin: 0;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    header img {
+      height: 68px;
+      margin-bottom: 1rem;
+    }
+    .stats {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.5rem;
+    }
+    .stats .label {
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      background: #1f1f1f;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #374151;
+    }
+    th {
+      background: #111827;
+      color: #f3f4f6;
+      font-weight: 600;
+    }
+    canvas {
+      background: #0f172a;
+      border-radius: 12px;
+      margin-top: 3rem;
+      padding: 1rem;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="https://sobtree.com" style="text-decoration: none;">
+      <img src="https://sobtree.com/logo.png" alt="Sobtree Logo">
+    </a>
+  </header>
+
+  <div class="stats">
+    <div><strong id="totalFiat">$...</strong></div>
+    <div class="label">Total Fiat Invested</div>
+    <div style="margin-top: 0.5rem;"><strong id="totalBTC">... BTC</strong></div>
+    <div class="label">Total BTC Held</div>
+  </div>
+
+  <table id="btcTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>BTC Acquired</th>
+        <th>Price (USD)</th>
+      </tr>
+    </thead>
+    <tbody id="sheet-data">
+      <tr><td>Loading...</td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <canvas id="btcChart" width="400" height="200"></canvas>
+
+  <script>
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS47V1t8RB3U1E_IyBs4jc_t3_HyZ10R8Y5W7xsy0uAU6ieuVMF7xLGP3kcxGxU6k3cNbASO_UTLtfa/gviz/tq?tqx=out:json&sheet=sobtree-tracker';
+
+    fetch(url)
+      .then(res => res.text())
+      .then(rep => {
+        const jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+        const table = document.getElementById('sheet-data');
+        const labels = [];
+        const btcValues = [];
+        const pricePoints = [];
+        const markerPoints = [];
+        table.innerHTML = '';
+        let totalBTC = 0;
+        let totalFiat = 0;
+
+        jsonData.table.rows.forEach(row => {
+          const date = row.c[0]?.v || '';
+          const btc = parseFloat(row.c[1]?.v || 0);
+          const price = parseFloat(row.c[2]?.v || 0);
+
+          totalBTC += btc;
+          totalFiat += btc * price;
+
+          labels.push(date);
+          btcValues.push(price);
+          markerPoints.push({x: date, y: price});
+
+          table.innerHTML += `<tr>
+            <td>${date}</td>
+            <td>${btc.toFixed(8)}</td>
+            <td>${price.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}</td>
+          </tr>`;
+        });
+
+        document.getElementById('totalBTC').textContent = `${totalBTC.toFixed(8)} BTC`;
+        document.getElementById('totalFiat').textContent = totalFiat.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+
+        const ctx = document.getElementById('btcChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'BTC Market Price',
+                data: btcValues,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.3,
+                pointRadius: 0
+              },
+              {
+                label: 'Purchases',
+                data: markerPoints,
+                type: 'scatter',
+                pointBackgroundColor: '#22c55e',
+                pointBorderColor: '#22c55e',
+                pointRadius: 6,
+                showLine: false
+              }
+            ]
+          },
+          options: {
+            scales: {
+              x: { display: true },
+              y: { display: true }
+            },
+            plugins: {
+              legend: { display: true }
+            }
+          }
+        });
+      });
+  </script>
+</body>
+</html>
