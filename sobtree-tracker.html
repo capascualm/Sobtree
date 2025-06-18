@@ -7,6 +7,7 @@
   <link rel="icon" href="https://sobtree.com/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -91,69 +92,91 @@
   </div>
 
   <script>
-  const url = 'https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1';
+    // Simulated historical BTC price dataset from 2020-01-01 to now
+    const simulatedPrices = [
+      {x: '2020-01-01', y: 7200},
+      {x: '2021-01-01', y: 29000},
+      {x: '2022-01-01', y: 47000},
+      {x: '2023-01-01', y: 16800},
+      {x: '2024-01-01', y: 42500},
+      {x: '2025-06-18', y: 65000}
+    ];
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      let totalBTC = 0, totalFiat = 0;
-      const labels = [], prices = [], markers = [];
-      const tbody = document.getElementById('sheet-data');
-      tbody.innerHTML = '';
+    const url = 'https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1';
 
-      data.forEach(row => {
-        const date = row["Date"];
-        const btc = parseFloat(row["BTC Acquired"]);
-        const price = parseFloat(row["Price (USD)"]);
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        let totalBTC = 0, totalFiat = 0;
+        const markers = [];
+        const tbody = document.getElementById('sheet-data');
+        tbody.innerHTML = '';
 
-        if (!date || isNaN(btc) || isNaN(price)) return;
+        data.forEach(row => {
+          const date = row["Date"];
+          const btc = parseFloat(row["BTC Acquired"]);
+          const price = parseFloat(row["Price (USD)"]);
 
-        totalBTC += btc;
-        totalFiat += btc * price;
-        labels.push(date);
-        prices.push(price);
-        markers.push({ x: date, y: price });
+          if (!date || isNaN(btc) || isNaN(price)) return;
 
-        tbody.innerHTML += `<tr><td>${date}</td><td>${btc.toFixed(8)}</td><td>${price.toLocaleString('en-US',{style:'currency',currency:'USD'})}</td></tr>`;
-      });
+          totalBTC += btc;
+          totalFiat += btc * price;
+          markers.push({ x: date, y: price });
 
-      document.getElementById('totalBTC').textContent = totalBTC.toFixed(8) + ' BTC';
-      document.getElementById('totalFiat').textContent = totalFiat.toLocaleString('en-US',{style:'currency',currency:'USD'});
+          tbody.innerHTML += `<tr><td>${date}</td><td>${btc.toFixed(8)}</td><td>${price.toLocaleString('en-US',{style:'currency',currency:'USD'})}</td></tr>`;
+        });
 
-      new Chart(document.getElementById('btcChart').getContext('2d'), {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'BTC Price',
-              data: prices,
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59,130,246,0.1)',
-              tension: 0.3,
-              pointRadius: 0
+        document.getElementById('totalBTC').textContent = totalBTC.toFixed(8) + ' BTC';
+        document.getElementById('totalFiat').textContent = totalFiat.toLocaleString('en-US',{style:'currency',currency:'USD'});
+
+        new Chart(document.getElementById('btcChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            datasets: [
+              {
+                label: 'BTC Price',
+                data: simulatedPrices,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59,130,246,0.1)',
+                tension: 0.3,
+                pointRadius: 0,
+                parsing: false
+              },
+              {
+                label: 'Purchases',
+                data: markers,
+                type: 'scatter',
+                pointBackgroundColor: '#22c55e',
+                pointBorderColor: '#22c55e',
+                pointRadius: 6,
+                showLine: false,
+                parsing: false
+              }
+            ]
+          },
+          options: {
+            scales: {
+              x: {
+                type: 'time',
+                time: { unit: 'year' },
+                title: { display: true, text: 'Date' },
+                ticks: { color: '#ccc' }
+              },
+              y: {
+                title: { display: true, text: 'Price (USD)' },
+                ticks: { color: '#ccc' }
+              }
             },
-            {
-              label: 'Purchases',
-              data: markers,
-              type: 'scatter',
-              pointBackgroundColor: '#22c55e',
-              pointBorderColor: '#22c55e',
-              pointRadius: 6,
-              showLine: false
+            plugins: {
+              legend: { display: true }
             }
-          ]
-        },
-        options: {
-          scales: { x: { display: true }, y: { display: true } },
-          plugins: { legend: { display: true } }
-        }
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Error loading sheet:', err);
+        document.getElementById('sheet-data').innerHTML = '<tr><td colspan="3">Error loading data</td></tr>';
       });
-    })
-    .catch(err => {
-      console.error('Error loading sheet:', err);
-      document.getElementById('sheet-data').innerHTML = '<tr><td colspan=\"3\">Error loading data</td></tr>';
-    });
-</script>
+  </script>
 </body>
 </html>
