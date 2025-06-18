@@ -94,19 +94,17 @@
   const url = 'https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1';
 
   fetch(url)
-    .then(res => res.text())
-    .then(rep => {
-      const json = JSON.parse(rep.substring(47).slice(0, -2));
-      const rows = json.table.rows;
+    .then(res => res.json())
+    .then(data => {
       let totalBTC = 0, totalFiat = 0;
       const labels = [], prices = [], markers = [];
       const tbody = document.getElementById('sheet-data');
       tbody.innerHTML = '';
 
-      rows.forEach(r => {
-        const date = r.c[0]?.v;
-        const btc = parseFloat(r.c[1]?.v);
-        const price = parseFloat(r.c[2]?.v);
+      data.forEach(row => {
+        const date = row["Date"];
+        const btc = parseFloat(row["BTC Acquired"]);
+        const price = parseFloat(row["Price (USD)"]);
 
         if (!date || isNaN(btc) || isNaN(price)) return;
 
