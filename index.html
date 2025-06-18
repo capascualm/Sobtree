@@ -27,18 +27,23 @@
       position: relative;
       padding: 1.5rem;
       background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .logo {
       font-weight: bold;
       font-size: 1.5rem;
-      padding-right: 10rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .btc-info {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -61,12 +66,51 @@
       font-family: monospace;
     }
 
+    .menu-btn {
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background: #111;
+      position: absolute;
+      top: 4.2rem;
+      right: 1.5rem;
+      border: 1px solid #333;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      z-index: 1000;
+    }
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .menu a:hover {
+      background-color: #222;
+    }
+
     @media (max-width: 600px) {
       .btc-label {
         display: none;
       }
-      .logo {
-        padding-right: 0;
+
+      .btc-counter {
+        min-width: 6rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .menu a {
+        font-size: 0.85rem;
       }
     }
 
@@ -124,9 +168,16 @@
 <body>
   <header>
     <div class="logo">Sobtree</div>
-    <div class="btc-info">
-      <span class="btc-label">BTC held by Sobtree:</span>
-      <div class="btc-counter"><span>₿ </span><span id="btcCount">0.00000000</span></div>
+    <div class="header-right">
+      <div class="btc-info">
+        <span class="btc-label">BTC held:</span>
+        <div class="btc-counter"><span>₿ </span><span id="btcCount">0.00000000</span></div>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="menu" id="menu">
+      <a href="/sobtree-tracker.html">BTC Tracker</a>
+      <a href="https://sobtree.substack.com">Blog</a>
     </div>
   </header>
 
@@ -147,6 +198,11 @@
   </footer>
 
   <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
     const btcElement = document.getElementById('btcCount')
     const target = 6.06121
     let current = 0
