@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sobtree.com/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://sobtree.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sobtree.com/sobtree-tracker.html</loc>
   </url>
 </urlset>
