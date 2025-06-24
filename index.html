@@ -13,10 +13,8 @@
   <meta property="og:url" content="https://sobtree.com/" />
   <meta property="og:image" content="https://sobtree.com/assets/sobtree_og.jpg" />
 
-  <!-- ✅ Favicon usando archivo existente -->
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 
-  <!-- ✅ Logo estructurado usando archivo existente -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -217,22 +215,37 @@
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    const btcElement = document.getElementById('btcCount')
-    const target = 6.06121
-    let current = 0
-    const step = 0.001
+    const btcElement = document.getElementById('btcCount');
 
-    function updateBTC() {
-      current += step
-      if (current >= target) {
-        btcElement.textContent = target.toFixed(8)
-        return
-      }
-      btcElement.textContent = current.toFixed(8)
-      requestAnimationFrame(updateBTC)
-    }
+    fetch('https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1')
+      .then(res => res.json())
+      .then(data => {
+        const lastRow = data[data.length - 1];
+        const btcValue = parseFloat(lastRow['BTC Total'] || lastRow['btc'] || 0);
 
-    updateBTC()
+        if (!isNaN(btcValue)) {
+          let current = 0;
+          const step = btcValue / 120;
+
+          function animateBTC() {
+            current += step;
+            if (current >= btcValue) {
+              btcElement.textContent = btcValue.toFixed(8);
+              return;
+            }
+            btcElement.textContent = current.toFixed(8);
+            requestAnimationFrame(animateBTC);
+          }
+
+          animateBTC();
+        } else {
+          btcElement.textContent = 'Error';
+        }
+      })
+      .catch(err => {
+        console.error('BTC fetch error:', err);
+        btcElement.textContent = 'Error';
+      });
   </script>
 </body>
 </html>
