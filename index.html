@@ -1,39 +1,260 @@
-<script>
-  const btcElement = document.getElementById('btcCount');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  fetch('https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1')
-    .then(res => res.json())
-    .then(data => {
-      let totalBTC = 0;
+  <title>Sobtree</title>
+  <meta name="description" content="Sobtree helps you protect capital and generate antifragile cashflow through a Bitcoin-first treasury strategy." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Sobtree — Bitcoin-First Treasury Company" />
+  <meta property="og:description" content="Build resilience, protect your legacy and unlock freedom through a Bitcoin-first approach to treasury." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sobtree.com/" />
+  <meta property="og:image" content="https://sobtree.com/assets/sobtree_og.jpg" />
 
-      for (const row of data) {
-        const keys = Object.keys(row);
-        if (keys.length >= 2) {
-          const value = parseFloat(row[keys[1]]); // Segunda columna siempre
-          if (!isNaN(value)) {
-            totalBTC += value;
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sobtree",
+    "url": "https://sobtree.com",
+    "logo": "https://sobtree.com/assets/sobtree_transparent.png"
+  }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      position: relative;
+      padding: 1.5rem;
+      background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btc-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btc-label {
+      display: inline;
+    }
+
+    .btc-counter {
+      background-color: #f7931a;
+      color: #000;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      min-width: 8rem;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .menu-btn {
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background: #111;
+      position: absolute;
+      top: 4.2rem;
+      right: 1.5rem;
+      border: 1px solid #333;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      z-index: 1000;
+    }
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .menu a:hover {
+      background-color: #222;
+    }
+
+    @media (max-width: 600px) {
+      .btc-label {
+        display: none;
+      }
+
+      .btc-counter {
+        min-width: 6rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .menu a {
+        font-size: 0.85rem;
+      }
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 80vh;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-style: italic;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    a.button {
+      text-decoration: none;
+      color: #000;
+      background: #f7931a;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    a.button:hover {
+      background: #e67e00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Sobtree</div>
+    <div class="header-right">
+      <div class="btc-info">
+        <span class="btc-label">BTC held:</span>
+        <div class="btc-counter"><span>₿ </span><span id="btcCount">0.00000000</span></div>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="menu" id="menu">
+      <a href="/sobtree-tracker.html">BTC Tracker</a>
+      <a href="https://sobtree.substack.com">Blog</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Bitcoin-First Treasury Company</h1>
+    <div class="subtitle">Build your financial sovereignty</div>
+    <p>
+      Sobtree is not just a company. It’s a methodical experiment in using Bitcoin as the core of corporate finance.
+      <b>We protect value in BTC, but we also focus on extracting strategic cashflow from it</b>, without selling.
+      In a world where most treasuries rot in fiat or dilute via inflation, we’re building a system that grows stronger over time.
+      From treasury design to yield generation, everything starts with Bitcoin.
+    </p>
+    <a href="https://sobtree.substack.com/" class="button">Join the journey</a>
+  </main>
+
+  <footer>
+    © 2025 Sobtree Holding, S.L. — Building from Madrid with conviction and long-term skin in the game.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    const btcElement = document.getElementById('btcCount');
+
+    fetch('https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1')
+      .then(res => res.json())
+      .then(data => {
+        let totalBTC = 0;
+
+        for (const row of data) {
+          const keys = Object.keys(row);
+          if (keys.length >= 2) {
+            const raw = String(row[keys[1]]).replace(",", ".").trim();
+            const value = parseFloat(raw);
+            if (!isNaN(value) && isFinite(value)) {
+              totalBTC += value;
+            }
           }
         }
-      }
 
-      // Animación progresiva
-      let current = 0;
-      const step = totalBTC / 120;
+        if (totalBTC <= 0) throw new Error("BTC total inválido");
 
-      function animateBTC() {
-        current += step;
-        if (current >= totalBTC) {
-          btcElement.textContent = totalBTC.toFixed(8);
-          return;
+        let current = 0;
+        const step = totalBTC / 120;
+
+        function animateBTC() {
+          current += step;
+          if (current >= totalBTC) {
+            btcElement.textContent = totalBTC.toFixed(8);
+            return;
+          }
+          btcElement.textContent = current.toFixed(8);
+          requestAnimationFrame(animateBTC);
         }
-        btcElement.textContent = current.toFixed(8);
-        requestAnimationFrame(animateBTC);
-      }
 
-      animateBTC();
-    })
-    .catch(err => {
-      console.error('BTC fetch error:', err);
-      btcElement.textContent = 'Error';
-    });
-</script>
+        animateBTC();
+      })
+      .catch(err => {
+        console.error('BTC fetch error:', err);
+        btcElement.textContent = 'Error';
+        document.body.style.background = '#200';
+      });
+  </script>
+</body>
+</html>
