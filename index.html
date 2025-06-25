@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Sobtree — Operational Bitcoin Treasury</title>
-  <meta name="description" content="Sobtree uses Bitcoin to power a clean, resilient treasury. Built on renewables, focused on long-term operations." />
+  <title>Sobtree</title>
+  <meta name="description" content="Sobtree helps you protect capital and generate antifragile cashflow through a Bitcoin-first treasury strategy." />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Sobtree — Operational Bitcoin Treasury" />
-  <meta property="og:description" content="We operate a Bitcoin treasury backed by renewables. No speculation, just long-term financial and energy resilience." />
+  <meta property="og:title" content="Sobtree — Bitcoin-First Treasury Company" />
+  <meta property="og:description" content="Build resilience, protect your legacy and unlock freedom through a Bitcoin-first approach to treasury." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sobtree.com/" />
   <meta property="og:image" content="https://sobtree.com/assets/sobtree_og.jpg" />
@@ -28,6 +27,7 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
@@ -137,7 +137,7 @@
     }
 
     h1 {
-      font-size: 2.8rem;
+      font-size: 3rem;
       margin-bottom: 0.5rem;
     }
 
@@ -194,12 +194,13 @@
   </header>
 
   <main>
-    <h1>Operational Treasury Secured by Bitcoin</h1>
-    <div class="subtitle">Built on renewables, designed for resilience</div>
+    <h1>Bitcoin-First Treasury Company</h1>
+    <div class="subtitle">Build your financial sovereignty</div>
     <p>
-      Sobtree is not just a treasury company, it's a <b>regenerative energy system</b>.<br/>
-      Every satoshi we manage is <b>backed by renewable energy</b> and anchored to a long-term operational purpose.<br/>
-      We protect value in BTC, but we also focus on <b>generating antifragile yield</b>, without selling.<br/> While most balance sheets rot in fiat or inflate away, <b>ours grows stronger, greener and more sovereign</b> over time.
+      Sobtree is not just a company. It’s a methodical experiment in using Bitcoin as the core of corporate finance.
+      <b>We protect value in BTC, but we also focus on extracting strategic cashflow from it</b>, without selling.
+      In a world where most treasuries rot in fiat or dilute via inflation, we’re building a system that grows stronger over time.
+      From treasury design to yield generation, everything starts with Bitcoin.
     </p>
     <a href="https://sobtree.substack.com/" class="button">Join the journey</a>
   </main>
@@ -208,5 +209,53 @@
     © 2025 Sobtree Holding, S.L. — Building from Madrid with conviction and long-term skin in the game.<br/>
     <small>*The BTC displayed is treasury-affect and registered under Spanish corporate law. This is not financial advice or a solicitation for investment.</small>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    const btcElement = document.getElementById('btcCount');
+
+    fetch('https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1')
+      .then(res => res.json())
+      .then(data => {
+        let totalBTC = 0;
+
+        for (const row of data) {
+          const keys = Object.keys(row);
+          if (keys.length >= 2) {
+            const raw = String(row[keys[1]]).replace(",", ".").trim();
+            const value = parseFloat(raw);
+            if (!isNaN(value) && isFinite(value)) {
+              totalBTC += value;
+            }
+          }
+        }
+
+        if (totalBTC <= 0) throw new Error("BTC total inválido");
+
+        let current = 0;
+        const step = totalBTC / 120;
+
+        function animateBTC() {
+          current += step;
+          if (current >= totalBTC) {
+            btcElement.textContent = totalBTC.toFixed(8);
+            return;
+          }
+          btcElement.textContent = current.toFixed(8);
+          requestAnimationFrame(animateBTC);
+        }
+
+        animateBTC();
+      })
+      .catch(err => {
+        console.error('BTC fetch error:', err);
+        btcElement.textContent = 'Error';
+        document.body.style.background = '#200';
+      });
+  </script>
 </body>
 </html>
