@@ -1,9 +1,4 @@
-# Redirige www a dominio principal
-https://www.sobtree.com/*   https://sobtree.com/:splat   301!
-
-# Redirige netlify subdomain
-https://sobtree.netlify.app/*   https://sobtree.com/:splat   301!
-
-# Corrige errores 404 o duplicados
-/index.html          /     301
-/sobtree-tracker     /     301
+/index.html        /        301
+/sobtree-tracker   /        301
+https://www.sobtree.com/*       https://sobtree.com/:splat    301!
+https://sobtree.netlify.app/*   https://sobtree.com/:splat    301!
