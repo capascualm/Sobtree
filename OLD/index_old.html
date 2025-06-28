@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="canonical" href="https://sobtree.com/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Bitcoin-Powered Sovereignty Company | Sobtree</title>
+  <script>
+    if (window.location.pathname.endsWith('/index.html')) {
+      window.location.replace('/');
+    }
+  </script>
+  <meta name="description" content="Sobtree mines Bitcoin and converts energy into long-term financial sovereignty—without selling, without dilution." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Bitcoin-Powered Sovereignty Company | Sobtree" />
+  <meta property="og:description" content="A methodical Bitcoin miner focused on sovereignty, strategic flow and long-term resilience." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sobtree.com/" />
+  <meta property="og:image" content="https://sobtree.com/assets/sobtree_og.jpg" />
+
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sobtree",
+    "url": "https://sobtree.com",
+    "logo": "https://sobtree.com/assets/sobtree_transparent.png"
+  }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      position: relative;
+      padding: 1.5rem;
+      background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btc-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btc-label {
+      display: inline;
+    }
+
+    .btc-counter {
+      background-color: #f7931a;
+      color: #000;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      min-width: 8rem;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .menu-btn {
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background: #111;
+      position: absolute;
+      top: 4.2rem;
+      right: 1.5rem;
+      border: 1px solid #333;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      z-index: 1000;
+    }
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .menu a:hover {
+      background-color: #222;
+    }
+
+    @media (max-width: 600px) {
+      .btc-label {
+        display: none;
+      }
+
+      .btc-counter {
+        min-width: 6rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .menu a {
+        font-size: 0.85rem;
+      }
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 80vh;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-style: italic;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    a.button {
+      text-decoration: none;
+      color: #000;
+      background: #f7931a;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    a.button:hover {
+      background: #e67e00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Sobtree</div>
+    <div class="header-right">
+      <div class="btc-info">
+        <span class="btc-label">BTC held:</span>
+        <div class="btc-counter"><span>₿ </span><span id="btcCount">0.00000000</span></div>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="menu" id="menu">
+      <a href="/sobtree-tracker.html">BTC Tracker</a>
+      <a href="https://sobtree.substack.com">Blog</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Bitcoin-Powered Sovereignty Company</h1>
+    <div class="subtitle">Build your financial independence at the source</div>
+      <p>
+        Sobtree is not just a company. <b>It’s a sovereignty engine fueled by Bitcoin mining</b>. We convert energy into monetary strength and <b>hold it with intention</b>.
+        This is not treasury management, <b>it’s long-term economic self-defense</b>.
+        In a world of diluted currencies and rented wealth, <b>we produce real assets</b>, avoid sell pressure, and compound resilience over time.
+        From mining infrastructure to custody logic, <b>everything starts with sovereignty</b>.
+      </p>
+    <a href="https://sobtree.substack.com/" class="button">Join the journey</a>
+  </main>
+
+  <footer>
+    © 2025 Sobtree Holding, S.L. — Building from Madrid with conviction and long-term skin in the game.<br/>
+    <small>*The BTC displayed is treasury-affect and registered under Spanish corporate law. This is not financial advice or a solicitation for investment.</small>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    const btcElement = document.getElementById('btcCount');
+
+    fetch('https://opensheet.elk.sh/1D5B6dYOJ90CwRq6F4LfDAhBM2aPaq4vwIX1J4SNslCQ/Sheet1')
+      .then(res => res.json())
+      .then(data => {
+        let totalBTC = 0;
+
+        for (const row of data) {
+          const keys = Object.keys(row);
+          if (keys.length >= 2) {
+            const raw = String(row[keys[1]]).replace(",", ".").trim();
+            const value = parseFloat(raw);
+            if (!isNaN(value) && isFinite(value)) {
+              totalBTC += value;
+            }
+          }
+        }
+
+        if (totalBTC <= 0) throw new Error("BTC total inválido");
+
+        let current = 0;
+        const step = totalBTC / 120;
+
+        function animateBTC() {
+          current += step;
+          if (current >= totalBTC) {
+            btcElement.textContent = totalBTC.toFixed(8);
+            return;
+          }
+          btcElement.textContent = current.toFixed(8);
+          requestAnimationFrame(animateBTC);
+        }
+
+        animateBTC();
+      })
+      .catch(err => {
+        console.error('BTC fetch error:', err);
+        btcElement.textContent = 'Error';
+        document.body.style.background = '#200';
+      });
+  </script>
+</body>
+</html>
